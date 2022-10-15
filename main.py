@@ -15,6 +15,9 @@ class MainGame:
         self.start_shuffle = False
         self.previous_choice = ""
         self.shuffle_time = 0
+        self.move_len = 0
+        self.move_count = False
+        self.text_solve = False
         self.screen = pygame.display.set_mode((width, height))
         self.fpsClock = pygame.time.Clock()
 
@@ -93,43 +96,24 @@ class MainGame:
         print("Done Breadth First Search Path")
 
 
-    def solutionMove(self):
-        print(self.tiles)
-        for num in self.num_to_move:
-            for row, tiles in enumerate(self.tiles):
-                for col, tile in enumerate(tiles):
-                    if str(num) == tile.text:
-                        # Check if up
-                        if row-1 >= 0:
-                            # Check if the upper is empty
-                            if self.tiles[row-1][col].text == '0':
-                                print('UP')
-                        if row+1 < 3:
-                            # Check if the upper is empty
-                            if self.tiles[row+1][col].text == '0':
-                                print('DOWN')
-                        if col-1 >= 0:
-                            # Check if the upper is empty
-                            if self.tiles[row][col-1].text == '0':
-                                print('LEFT')
-                        if col+1 < 3:
-                            # Check if the upper is empty
-                            if self.tiles[row][col+1].text == '0':
-                                print('RIGHT')
-                        print(tile.text)
-                        '''if tile.right() and self.initial_tiles[row][col + 1] == 0:
-                            self.initial_tiles[row][col], self.initial_tiles[row][col + 1] = self.initial_tiles[row][col + 1], self.initial_tiles[row][col]
+    def solutionMove(self, num):
+        for row, tiles in enumerate(self.tiles):
+            for col, tile in enumerate(tiles):
+                if tile.text == "empty":
+                    if tile.right() and self.initial_tiles[row][col + 1] == num:
+                        self.initial_tiles[row][col], self.initial_tiles[row][col + 1] = self.initial_tiles[row][col + 1], self.initial_tiles[row][col]
 
-                        if tile.left() and self.initial_tiles[row][col - 1] == 0:
-                            self.initial_tiles[row][col], self.initial_tiles[row][col - 1] = self.initial_tiles[row][col - 1], self.initial_tiles[row][col]
+                    if tile.left() and self.initial_tiles[row][col - 1] == num:
+                        self.initial_tiles[row][col], self.initial_tiles[row][col - 1] = self.initial_tiles[row][col - 1], self.initial_tiles[row][col]
 
-                        if tile.up() and self.initial_tiles[row - 1][col] == 0:
-                            self.initial_tiles[row][col], self.initial_tiles[row - 1][col] = self.initial_tiles[row - 1][col], self.initial_tiles[row][col]
+                    if tile.up() and self.initial_tiles[row - 1][col] == num:
+                        self.initial_tiles[row][col], self.initial_tiles[row - 1][col] = self.initial_tiles[row - 1][col], self.initial_tiles[row][col]
 
-                        if tile.down() and self.initial_tiles[row + 1][col] == 0:
-                            self.initial_tiles[row][col], self.initial_tiles[row + 1][col] = self.initial_tiles[row + 1][col], self.initial_tiles[row][col]
-                            
-                        self.draw_tiles()'''
+                    if tile.down() and self.initial_tiles[row + 1][col] == num:
+                        self.initial_tiles[row][col], self.initial_tiles[row + 1][col] = self.initial_tiles[row + 1][col], self.initial_tiles[row][col]
+                    break
+        
+                        
 
     def draw_tiles(self):
         self.tiles = []
@@ -179,6 +163,15 @@ class MainGame:
                 self.start_shuffle = False
                 self.shuffle_time = 0
                 print(self.initial_tiles)
+        
+        if self.move_count:
+            self.solutionMove(self.num_to_move[self.move_len])
+            self.draw_tiles()
+            self.move_len += 1
+            time.sleep(0.3)
+            #print(len(self.num_to_move))
+            if self.move_len == len(self.num_to_move):
+                self.move_count = False
         self.all_sprites.update()
 
     def draw(self):
@@ -236,8 +229,8 @@ class MainGame:
                             self.bfs()
                         if button.text == "Show Solution":
                             print("--Showing Solution--")
+                            self.move_count =  True
                             self.show_solution = True
-                            self.solutionMove()
 
 game = MainGame()
 while True:
