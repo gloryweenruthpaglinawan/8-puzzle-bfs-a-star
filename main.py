@@ -94,10 +94,28 @@ class MainGame:
 
 
     def solutionMove(self):
+        print(self.tiles)
         for num in self.num_to_move:
             for row, tiles in enumerate(self.tiles):
                 for col, tile in enumerate(tiles):
                     if str(num) == tile.text:
+                        # Check if up
+                        if row-1 >= 0:
+                            # Check if the upper is empty
+                            if self.tiles[row-1][col].text == '0':
+                                print('UP')
+                        if row+1 < 3:
+                            # Check if the upper is empty
+                            if self.tiles[row+1][col].text == '0':
+                                print('DOWN')
+                        if col-1 >= 0:
+                            # Check if the upper is empty
+                            if self.tiles[row][col-1].text == '0':
+                                print('LEFT')
+                        if col+1 < 3:
+                            # Check if the upper is empty
+                            if self.tiles[row][col+1].text == '0':
+                                print('RIGHT')
                         print(tile.text)
                         '''if tile.right() and self.initial_tiles[row][col + 1] == 0:
                             self.initial_tiles[row][col], self.initial_tiles[row][col + 1] = self.initial_tiles[row][col + 1], self.initial_tiles[row][col]
@@ -159,6 +177,7 @@ class MainGame:
             self.shuffle_time += 1
             if self.shuffle_time > 10:
                 self.start_shuffle = False
+                self.shuffle_time = 0
                 print(self.initial_tiles)
         self.all_sprites.update()
 
