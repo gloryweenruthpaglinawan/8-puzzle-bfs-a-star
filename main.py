@@ -133,7 +133,10 @@ class MainGame:
         self.initial_tiles = self.puzzleGame()
         self.goal_tiles = self.puzzleGame()
         self.draw_tiles()
-        self.test = UIElement(530, 20, "Eight Puzzle - BFS")
+        self.test = UIElement(530, 20, "Eight Puzzle - BFS", 20)
+        self.puzzleSolved = UIElement(100, 200, "Puzzle Solved!", 30)
+        self.text_solve =  False
+        self.move_len = 0
 
         self.buttons_list = []
         self.buttons_list.append(Button(550, 100, 160, 50, "Reset", white, num_color))
@@ -153,6 +156,7 @@ class MainGame:
         if self.show_solution:
             if self.initial_tiles ==  self.goal_tiles:
                 print("--PUZZLE SOLVED--")
+                self.text_solve = True
                 self.show_solution = False
 
         if self.start_shuffle:
@@ -179,6 +183,9 @@ class MainGame:
         self.all_sprites.draw(self.screen)
         self.draw_grid()
         self.test.draw(self.screen)
+
+        if self.text_solve:
+            self.puzzleSolved.draw(self.screen)
 
         for button in self.buttons_list:
             button.draw(self.screen)

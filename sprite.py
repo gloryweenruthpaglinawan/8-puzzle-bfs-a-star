@@ -43,12 +43,13 @@ class Tile(pygame.sprite.Sprite):
         return self.rect.y + tiles_size < grid_size * tiles_size
 
 class UIElement:
-    def __init__(self, x, y, text):
+    def __init__(self, x, y, text, s):
         self.x, self.y = x, y
         self.text = text
+        self.s = s 
 
     def draw(self, screen):
-        font = pygame.font.SysFont("Consolas", 20)
+        font = pygame.font.SysFont("Consolas", self.s)
         text = font.render(self.text, True, white)
         screen.blit(text, (self.x, self.y))
 
