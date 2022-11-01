@@ -4,6 +4,7 @@ import time
 from sprite import *
 from settings import *
 from bfs import *
+from astar import *
 
 
 class MainGame:
@@ -95,6 +96,28 @@ class MainGame:
         print(self.num_to_move)
         print("Done Breadth First Search Path")
 
+    def astar(self):
+        astar_sol = initial_board(self.initial_tiles)
+        astar_sol.reverse()
+        print(astar_sol)
+
+        self.num_to_move = []
+        countindex = 0
+
+        for path in astar_sol:
+            if countindex != (len(astar_sol) - 1):
+                temp_path = astar_sol[countindex + 1]
+                print(f"{path} == {temp_path}")
+
+                for (fp, sp) in zip(path, temp_path):
+                    print(f"{fp} = {sp}")
+                    if fp != sp and fp != 0:
+                        self.num_to_move.append(fp)
+                        break
+            countindex += 1
+
+        print(self.num_to_move)
+        print("Done A-star Path")
 
     def solutionMove(self, num):
         for row, tiles in enumerate(self.tiles):
@@ -139,10 +162,12 @@ class MainGame:
         self.move_len = 0
 
         self.buttons_list = []
-        self.buttons_list.append(Button(550, 100, 160, 50, "Reset", white, num_color))
-        self.buttons_list.append(Button(550, 180, 160, 50, "Shuffle", white, num_color))
-        self.buttons_list.append(Button(550, 260, 160, 50, "BFS", white, num_color))
-        self.buttons_list.append(Button(550, 340, 160, 50, "Show Solution", white, num_color))
+        self.buttons_list.append(Button(550, 80, 160, 50, "Reset", white, num_color))
+        self.buttons_list.append(Button(550, 160, 160, 50, "Shuffle", white, num_color))
+        self.buttons_list.append(Button(550, 240, 160, 50, "BFS", white, num_color))
+        self.buttons_list.append(Button(550, 320, 160, 50, "A-star", white, num_color))
+        self.buttons_list.append(Button(550, 400, 160, 50, "Show Solution", white, num_color))
+        
 
     def run(self):
         self.playing = True
@@ -234,6 +259,9 @@ class MainGame:
                         if button.text == "BFS":
                             print("--Breadth First Search--")
                             self.bfs()
+                        if button.text == "A-star":
+                            print("--A-star--")
+                            self.astar()
                         if button.text == "Show Solution":
                             print("--Showing Solution--")
                             self.move_count =  True
