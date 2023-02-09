@@ -156,8 +156,8 @@ class MainGame:
         self.initial_tiles = self.puzzleGame()
         self.goal_tiles = self.puzzleGame()
         self.draw_tiles()
-        self.test = UIElement(530, 20, "Eight Puzzle - BFS", 20)
-        self.puzzleSolved = UIElement(100, 200, "Puzzle Solved!", 30)
+        self.test = UIElement(550, 20, "Eight - Puzzle", 20)
+        self.puzzleSolved = UIElement(100, 460, "Puzzle Solved!", 30)
         self.text_solve =  False
         self.move_len = 0
 
